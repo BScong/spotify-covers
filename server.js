@@ -1,5 +1,4 @@
 var request = require('request'); // "Request" library
-var cookieParser = require('cookie-parser');
 var express = require('express'); // Express web server framework
 var querystring = require('querystring');
 var config = require('./private_config.js');
@@ -16,8 +15,7 @@ var spotifyApi = new SpotifyWebApi({
 
 var app = express();
 
-app.use(express.static(__dirname + '/public'))
-   .use(cookieParser());
+app.use(express.static(__dirname + '/public'));
 
 function getToken(){
   // your application requests authorization
@@ -45,8 +43,6 @@ function getToken(){
 }
 
 getToken()
-app.use(express.static(__dirname + '/public'))
-   .use(cookieParser());
 
 app.get('/get', function(req, res) {
   query = req.query.q;
