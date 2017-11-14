@@ -2,9 +2,10 @@ var request = require('request'); // "Request" library
 var cookieParser = require('cookie-parser');
 var express = require('express'); // Express web server framework
 var querystring = require('querystring');
+var config = require('./private_config.js');
 
-var client_id = 'CLIENT_ID'; // Your client id
-var client_secret = 'CLIENT_SECRET'; // Your secret
+var client_id = config.client_id; // Your client id
+var client_secret = config.client_secret; // Your secret
 
 var client_token = ''
 var SpotifyWebApi = require('spotify-web-api-node');
