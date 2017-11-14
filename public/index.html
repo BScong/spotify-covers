@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Track Cover</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      #search, #results {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="search">
+        <h1>Track Cover</h1>
+        <form action="/get" method="get">
+          <label for="q">Track ID or Spotify Track URI or Spotify URL for track :</label>
+          <div class="input-group">
+            <input type="search" class="form-control" value="spotify:track:3llHPPHKJ9bBYh9pg9TBbf" id="q" name="q"/>
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </span>
+          </div>
+        </form>
+        
+      </div>
+      <div id="results">
+        <div id="track">
+        </div>
+      </div>
+      <div id="error">
+          <h2>Error on request.</h2>
+      </div>
+    </div>
+
+    <script id="track-template" type="text/x-handlebars-template">
+      <h3>Track : {{track_name}}</h3>
+      <div class="media">
+        <!---<div class="pull-left">
+          <iframe src="https://open.spotify.com/embed?uri=spotify%3Atrack%3A{{track_id}}" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+        </div> -->
+        <div class="media-body">
+          <dl class="dl-horizontal">
+             <dt>Spotify Frame</dt><dd><iframe src="https://open.spotify.com/embed?uri=spotify%3Atrack%3A{{track_id}}" width="300" height="80" frameborder="0" allowtransparency="true"></iframe></dd>
+            <dt>Id</dt><dd>{{track_id}}</dd>
+            <dt>Cover Image Link</dt><dd><a href="{{image_url}}">{{image_url}}</a></dd>
+            <dt>Cover Image</dt><dd> <img src="{{image_url}}" alt="Cover Image"></dd>
+          </dl>
+         
+        </div>
+      </div>
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      (function() {
+        /**
+         * Obtains parameters from the hash of the URL
+         * @return Object
+         */
+        function getHashParams() {
+          var hashParams = {};
+          var e, r = /([^&;=]+)=?([^&;]*)/g,
+              q = window.location.hash.substring(1);
+          while ( e = r.exec(q)) {
+             hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+
+        var trackSource = document.getElementById('track-template').innerHTML,
+            trackTemplate = Handlebars.compile(trackSource),
+            trackPlaceholder = document.getElementById('track');
+        var params = getHashParams();
+        var image_url = params.url,
+            track_id = params.id,
+            track_name = params.name,
+            error = params.error;
+        $('#error').hide();
+        if (error) {
+          $('#error').show();
+        } 
+        if (track_id) {
+          // render oauth info
+          trackPlaceholder.innerHTML = trackTemplate({
+            image_url: params.url,
+            track_id: track_id,
+            track_name: track_name
+          });
+          $('#error').hide();
+          $('#search').show();
+          $('#results').show();
+        } else {
+            // render initial screen
+            $('#search').show();
+            $('#results').hide();
+        }
+        
+        
+      })();
+    </script>
+  </body>
+</html>
