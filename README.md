@@ -2,6 +2,8 @@
 Fetch album covers image from Spotify API.
 Uses a NodeJS server.
 
+The online version is available at [cover.zhong.fr](https://cover.zhong.fr)
+
 ## Installation
 Set the ```CLIENT_ID``` and the ```CLIENT_SERVER``` in ```private_config.js``` with your Spotify application settings.
 
