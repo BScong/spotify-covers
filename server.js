@@ -44,9 +44,6 @@ function getToken(){
   });
 }
 
-function getImage(token){
-
-}
 getToken()
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
@@ -77,6 +74,7 @@ app.get('/get', function(req, res) {
               error: "1"
             }));
       //console.error(err);
+      getToken();
     });
   } else {
     res.redirect('/#' +
